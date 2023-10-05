@@ -14,7 +14,9 @@ function create (req, res, next){
 }
 
 function list(req, res, next) {
-    Director.findAll().then(objects => res.json(objects)).catch(err => res.send(err));
+    Director.findAll('movies')
+    .then(objects => res.json(objects))
+    .catch(err => res.send(err));
 }
 
 function index(req, res, next){

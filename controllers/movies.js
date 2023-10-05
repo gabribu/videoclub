@@ -1,15 +1,28 @@
 const express = require('express');
+const {Movie} = require('../db');
+const genre = require('../models/genre');
 
 function create(req, res, next){
-    res.send('Users create');
+    const title = req.body.title;
+    const genreId = req.body.genreId;
+    const directorId = req.body.directorId;
+
+    Movie.create({
+        title: title,
+        genreId: genreId,
+        directorId: directorId
+    }).then (object => res.json(object)).catch(err => res.send(err));
 }
 
 function list(req, res, next) {
-    res.send('Users list');
+    Movie.findAll({include: ['genre', 'director']})
+    .then(objects => res.json(objects))
+    .catch(err => res.send (err));
 }
 
 function index(req, res, next){
-    res.send('Users index');
+    const id = req.params.id;
+    Movie.findByPk(id).then(object => res.json(object)).catch(err => res.send(err));
 }
 
 function replace(req, res, next){
